@@ -5,10 +5,6 @@
 
 <h1 align="center">xtream2m3u</h1>
 
-[![Discord][discord-shield]][discord-url]
-[![Language][language-shield]][language-url]
-[![License][license-shield]][license-url]
-
 <p align="center">
   <strong>Convert Xtream IPTV APIs into customizable M3U playlists with ease</strong>
 </p>
@@ -20,6 +16,18 @@
   <a href="#usage">Usage</a> •
   <a href="#license">License</a> •
   <a href="#disclaimer">Disclaimer</a>
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/7qK8sfEq2q">
+    <img src="https://img.shields.io/discord/1068543728274382868?color=7289da&label=Support&logo=discord&logoColor=7289da&style=for-the-badge" alt="Discord">
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/github/languages/top/ovosimpatico/xtream2m3u?logo=python&logoColor=yellow&style=for-the-badge" alt="Language">
+  </a>
+  <a href="https://github.com/ovosimpatico/xtream2m3u/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/ovosimpatico/xtream2m3u?style=for-the-badge" alt="License">
+  </a>
 </p>
 
 ## About
@@ -119,13 +127,3 @@ This project is licensed under the GNU Affero General Public License v3.0 (AGPLv
 xtream2m3u is a tool for generating M3U playlists from Xtream API-based IPTV services but does not provide IPTV services itself. A valid subscription to an IPTV service using the Xtream API is required to use this tool.
 
 xtream2m3u does not endorse piracy and requires users to ensure they have the necessary rights and permissions. The developers are not responsible for any misuse of the software or violations of IPTV providers' terms of service.
-
-[language-shield]: https://img.shields.io/github/languages/top/ovosimpatico/xtream2m3u?logo=python&logoColor=yellow&style=for-the-badge
-[language-url]: https://www.python.org/
-
-[license-shield]: https://img.shields.io/github/license/ovosimpatico/xtream2m3u?style=for-the-badge
-[license-url]: https://github.com/ovosimpatico/xtream2m3u/blob/main/LICENSE
-
-[discord-shield]: https://img.shields.io/discord/1068543728274382868?color=7289da&label=Support&logo=discord&logoColor=7289da&style=for-the-badge
-[discord-url]: https://discord.gg/7qK8sfEq2q
-[discord-banner]: https://discordapp.com/api/guilds/1068543728274382868/widget.png?style=banner2
