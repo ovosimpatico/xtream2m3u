@@ -84,7 +84,8 @@ def generate_m3u():
             group_title = categoryname[channel["category_id"]]
             # Skip this channel if its group is in the unwanted list
             if not any(unwanted_group.lower() in group_title.lower() for unwanted_group in unwanted_groups):
-                m3u_playlist += f'#EXTINF:0 tvg-name="{channel["name"]}" group-title="{group_title}",{channel["name"]}\n'
+                logo_url = channel.get('stream_icon', '')
+                m3u_playlist += f'#EXTINF:0 tvg-name="{channel["name"]}" group-title="{group_title}" tvg-logo="{logo_url}",{channel["name"]}\n'
                 m3u_playlist += f'{fullurl}{channel["stream_id"]}.ts\n'
 
     # Return the M3U playlist as a downloadable file
