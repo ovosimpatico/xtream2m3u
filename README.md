@@ -11,7 +11,6 @@
 
 <p align="center">
   <a href="#about">About</a> •
-  <a href="#features">Features</a> •
   <a href="#prerequisites">Prerequisites</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •

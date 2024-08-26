@@ -6,4 +6,5 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
+      - GUNICORN_CMD_ARGS="--workers=3"
     restart: unless-stopped
