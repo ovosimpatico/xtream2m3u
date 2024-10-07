@@ -81,7 +81,8 @@ def generate_m3u():
     m3u_playlist = "#EXTM3U\n"
     for channel in livechannelraw:
         if channel['stream_type'] == 'live':
-            group_title = categoryname[channel["category_id"]]
+            # Use a default category name if category_id is None
+            group_title = categoryname.get(channel["category_id"], "Uncategorized")
             # Skip this channel if its group is in the unwanted list
             if not any(unwanted_group.lower() in group_title.lower() for unwanted_group in unwanted_groups):
                 logo_url = channel.get('stream_icon', '')
