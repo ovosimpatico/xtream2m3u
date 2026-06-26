@@ -34,7 +34,7 @@ from app.services import (
     generate_m3u_playlist,
     validate_xtream_credentials,
 )
-from app.utils import group_matches, parse_group_list, setup_custom_dns
+from app.utils import group_matches, normalize_base_url, parse_group_list, setup_custom_dns
 
 
 def main():
@@ -93,6 +93,10 @@ def main():
                         help="Verbose progress logging to stderr")
 
     args = parser.parse_args()
+
+    # Normalize the base URL (trim, add scheme, drop trailing slashes) so
+    # endpoints never come out as "http://host//player_api.php".
+    args.url = normalize_base_url(args.url)
 
     # All logs go to stderr so stdout stays a clean playlist when piping
     logging.basicConfig(

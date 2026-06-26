@@ -22,10 +22,10 @@ def fetch_api_data(url, timeout=10):
         "Accept-Encoding": "gzip, deflate",
     }
 
-    try:
-        hostname = urllib.parse.urlparse(url).netloc.split(":")[0]
-        logger.debug(f"Making request to host: {hostname}")
+    hostname = urllib.parse.urlparse(url).netloc.split(":")[0] or "the server"
+    logger.debug(f"Making request to host: {hostname}")
 
+    try:
         # Use fresh connection for each request to avoid stale connection issues
         response = requests.get(url, headers=headers, timeout=timeout, stream=True)
         response.raise_for_status()
@@ -44,8 +44,37 @@ def fetch_api_data(url, timeout=10):
             # Fallback to text for non-JSON responses
             return response.text
 
+    # Order matters: SSLError/Timeout/ConnectTimeout are subclasses of the more
+    # general exceptions below, so the specific cases must come first. Each
+    # branch turns a raw urllib3 string into something a user can act on.
     except requests.exceptions.SSLError:
-        return {"error": "SSL Error", "details": "Failed to verify SSL certificate"}, 503
+        return {
+            "error": "SSL Error",
+            "details": f"Could not establish a secure (HTTPS) connection to '{hostname}'. "
+                       "Try the http:// version of the server URL.",
+        }, 502
+    except requests.exceptions.Timeout:
+        return {
+            "error": "Server Timeout",
+            "details": f"'{hostname}' took too long to respond. The server is likely "
+                       "overloaded — try again, or use a different server URL from your provider.",
+        }, 504
+    except requests.exceptions.ConnectionError:
+        # DNS resolution failure, connection refused, host unreachable, etc.
+        return {
+            "error": "Connection Failed",
+            "details": f"Could not reach '{hostname}'. The server may be offline or the URL "
+                       "may be wrong. Double-check the address, or try a different server URL "
+                       "from your provider.",
+        }, 502
+    except requests.exceptions.HTTPError as e:
+        status = e.response.status_code if e.response is not None else "unknown"
+        return {
+            "error": "Server Error",
+            "details": f"'{hostname}' returned an error (HTTP {status}). The server is likely "
+                       "overloaded or blocking this request — try a different server URL from "
+                       "your provider.",
+        }, 502
     except requests.exceptions.RequestException as e:
         logger.error(f"RequestException: {e}")
         return {"error": "Request Exception", "details": str(e)}, 503

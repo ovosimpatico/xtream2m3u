@@ -2,12 +2,30 @@
 import fnmatch
 import ipaddress
 import logging
+import re
 import socket
 import urllib.parse
 
 import dns.resolver
 
 logger = logging.getLogger(__name__)
+
+
+def normalize_base_url(url):
+    """Normalize a user-supplied Xtream base URL.
+
+    Trims whitespace, prepends http:// when no scheme is given, and strips any
+    trailing slashes. Without this, a pasted URL like "http://host/" builds
+    endpoints as "http://host//player_api.php" — a double slash that stricter
+    Xtream panels reject. Returns the value unchanged if it's empty/None so the
+    caller's own required-field validation still fires.
+    """
+    if not url:
+        return url
+    url = url.strip()
+    if url and not re.match(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://", url):
+        url = "http://" + url
+    return url.rstrip("/")
 
 
 def setup_custom_dns():

@@ -14,7 +14,7 @@ from app.services import (
     generate_m3u_playlist,
     validate_xtream_credentials,
 )
-from app.utils import encode_url, group_matches, parse_group_list
+from app.utils import encode_url, group_matches, normalize_base_url, parse_group_list
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +66,10 @@ def get_required_params():
         username = request.args.get("username")
         password = request.args.get("password")
         proxy_url = request.args.get("proxy_url", current_app.config['DEFAULT_PROXY_URL']) or request.host_url.rstrip("/")
+
+    # Normalize the pasted base URL (trim, add scheme, drop trailing slashes) so
+    # endpoints never come out as "http://host//player_api.php".
+    url = normalize_base_url(url)
 
     if not url or not username or not password:
         return (
